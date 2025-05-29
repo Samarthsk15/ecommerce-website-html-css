@@ -303,9 +303,39 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        registrationForm.onsubmit = async function(e) {
-            e.preventDefault();
+        // Function to show bill
+        function showBill(orderData) {
+            // Update customer details
+            document.getElementById('bill-name').textContent = orderData.name;
+            document.getElementById('bill-email').textContent = orderData.email;
+            document.getElementById('bill-phone').textContent = orderData.phone;
+            
+            // Update shipping address
+            document.getElementById('bill-address').textContent = `${orderData.street}, ${orderData.city}, ${orderData.state} ${orderData.zip}, ${orderData.country}`;
+            
+            // Update order items
+            const itemsHtml = orderData.items.map(item => `
+                <div class="bill-item">
+                    <span>${item.name} x ${item.quantity}</span>
+                    <span>₹${item.price.toLocaleString('en-IN')}</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('bill-items').innerHTML = itemsHtml;
+            
+            // Update totals
+            document.getElementById('bill-total-items').textContent = orderData.items.length;
+            document.getElementById('bill-total-amount').textContent = orderData.total.toLocaleString('en-IN');
+            
+            // Hide registration modal and show bill modal
+            document.getElementById('registration-modal').style.display = 'none';
+            document.getElementById('bill-modal').style.display = 'block';
+        }
 
+        // Update the registration form submission
+        registrationForm.onsubmit = function(e) {
+            e.preventDefault();
+            
             // Get all form inputs
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -394,48 +424,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            try {
-                // Calculate total amount
-                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            // Calculate total amount
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            const orderData = {
+                name,
+                email,
+                phone,
+                street,
+                city,
+                state,
+                zip,
+                country,
+                cardNumber,
+                cardName,
+                items: cart,
+                total
+            };
 
-                // Send order data to server
-                const response = await fetch('http://localhost:3000/save-order', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name,
-                        email,
-                        phone,
-                        street,
-                        city,
-                        state,
-                        zip,
-                        country,
-                        cardNumber,
-                        cardName,
-                        items: cart,
-                        total
-                    })
-                });
-
-                const result = await response.json();
-                
-                if (result.success) {
-                    alert('Order placed successfully! Thank you for your purchase.');
-                    cart = [];
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                    document.getElementById('registration-modal').style.display = 'none';
-                    displayCart();
-                    updateCartCount();
-                } else {
-                    throw new Error(result.message || 'Failed to save order');
-                }
-            } catch (error) {
-                console.error('Error processing order:', error);
-                alert('There was an error processing your order. Please try again.');
-            }
+            // Show bill directly
+            showBill(orderData);
+            
+            // Clear cart
+            cart = [];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
+            updateCartCount();
         };
     }
 

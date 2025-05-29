@@ -130,6 +130,44 @@
           </form>
         </div>
       </div>
+
+      <!-- Bill Modal -->
+      <div id="bill-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="document.getElementById('bill-modal').style.display='none'">&times;</span>
+          <div id="bill-content">
+            <div class="bill-header">
+              <img src="images/logo.png" alt="Logo" style="max-width: 150px;">
+              <h2>Order Confirmation</h2>
+              <p>Thank you for your purchase!</p>
+            </div>
+            <div class="bill-details">
+              <div class="customer-info">
+                <h3>Customer Details</h3>
+                <p id="bill-name"></p>
+                <p id="bill-email"></p>
+                <p id="bill-phone"></p>
+              </div>
+              <div class="shipping-info">
+                <h3>Shipping Address</h3>
+                <p id="bill-address"></p>
+              </div>
+              <div class="order-info">
+                <h3>Order Details</h3>
+                <div id="bill-items"></div>
+                <div class="bill-total">
+                  <p>Total Items: <span id="bill-total-items"></span></p>
+                  <p>Total Amount: ₹<span id="bill-total-amount"></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="bill-footer">
+              <button onclick="window.print()" class="normal">Print Bill</button>
+              <button onclick="location.href='index.html'" class="normal">Continue Shopping</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <!--footer section-->

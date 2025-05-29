@@ -1555,3 +1555,108 @@ footer .social-icons a:hover {
     }
 }
 
+/* Bill Modal Styles */
+#bill-content {
+    padding: 20px;
+}
+
+.bill-header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #088178;
+    padding-bottom: 20px;
+}
+
+.bill-header h2 {
+    color: #088178;
+    margin: 15px 0;
+}
+
+.bill-details {
+    margin: 20px 0;
+}
+
+.bill-details h3 {
+    color: #088178;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.customer-info, .shipping-info, .order-info {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.bill-items {
+    margin: 15px 0;
+}
+
+.bill-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.bill-item span {
+    color: #1a1a1a;
+}
+
+.bill-total {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #088178;
+}
+
+.bill-total p {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    margin: 10px 0;
+    color: #1a1a1a;
+}
+
+.bill-total span {
+    color: #088178;
+    font-weight: bold;
+}
+
+.bill-footer {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.bill-footer button {
+    min-width: 150px;
+}
+
+/* Print Styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #bill-modal, #bill-modal * {
+        visibility: visible;
+    }
+    #bill-modal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white;
+    }
+    .bill-footer {
+        display: none;
+    }
+    .modal-content {
+        box-shadow: none;
+    }
+    .close {
+        display: none;
+    }
+}
+

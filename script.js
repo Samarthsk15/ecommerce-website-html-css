@@ -1,3 +1,43 @@
+// Authentication check
+function checkAuth() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const currentPage = window.location.pathname.split('/').pop();
+    
+    // If not logged in and not on login page, redirect to login
+    if (!isLoggedIn && currentPage !== 'login.html') {
+        window.location.href = 'login.html';
+        return false;
+    }
+    
+    // If logged in and on login page, redirect to home
+    if (isLoggedIn && currentPage === 'login.html') {
+        window.location.href = 'index.html';
+        return false;
+    }
+    
+    return isLoggedIn;
+}
+
+// Logout function
+function logout() {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userEmail');
+    window.location.href = 'login.html';
+}
+
+// Check authentication on page load
+document.addEventListener('DOMContentLoaded', function() {
+    checkAuth();
+    
+    // Add logout button to header if user is logged in
+    const headerList = document.querySelector('.header-list');
+    if (headerList && localStorage.getItem('isLoggedIn') === 'true') {
+        const logoutBtn = document.createElement('li');
+        logoutBtn.innerHTML = '<a href="#" onclick="logout()">Logout</a>';
+        headerList.appendChild(logoutBtn);
+    }
+});
+
 // focus the cursor on the email-address input
 const emailField = document.getElementById("email-address-input");
 if (emailField) {
